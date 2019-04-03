@@ -2,7 +2,7 @@
   // fs
   { readFile, writeFile, unlink, statSync },
   // config
-  { DB_LOCATION, ITEM_SET_LOCATION },
+  { DB_LOCATION, ITEM_SET_LOCATION, DOC_LOCATION },
   // global utils
   { errCheck }
 ) => {
@@ -55,6 +55,19 @@
     });
   };
 
+  fileUtils.writeDoc = (fileLocation, newContents) => {
+    return new Promise((resolve, reject) => {
+      try {
+        writeFile(`${DOC_LOCATION}/${fileLocation}`, newContents, (writeErr, results)=>{
+          errCheck(writeErr, reject);
+          resolve({ success: true });
+        });
+      } catch (iceberg) {
+        errCheck(iceberg, reject);
+      }
+    });
+  };
+
 
   fileUtils.writeAsJSON = (fileLocation, newContents) => {
     return new Promise((resolve, reject) => {
@@ -73,6 +86,19 @@
     return new Promise((resolve, reject) => {
       try {
         readFile(`${DB_LOCATION}/${fileLocation}`, (err, results) => {
+          errCheck(err, reject);
+          resolve({ success: true, results.toString() });
+        });
+      } catch (iceberg) {
+        errCheck(iceberg, reject);
+      }
+    });
+  };
+
+  fileUtils.readDoc = fileLocation => {
+    return new Promise((resolve, reject) => {
+      try {
+        readFile(`${DOC_LOCATION}/${fileLocation}`, (err, results) => {
           errCheck(err, reject);
           resolve({ success: true, results.toString() });
         });

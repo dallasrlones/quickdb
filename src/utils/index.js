@@ -1,7 +1,7 @@
 (utils => {
   utils.warning = message => console.log(message.toString());
 
-  utils.genUUID = uuid();
+  utils.genUUID = uuid;
 
   utils.isDefined = objToCheck => {
     if (objToCheck === undefined || objToCheck === '' || objToCheck === null) {
