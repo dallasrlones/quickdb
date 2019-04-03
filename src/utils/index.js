@@ -22,4 +22,5 @@
   };
 
   utils.file = require('./fileUtils.js');
+  utils.state = require('./cacheMachine.js');
 })(module.exports);

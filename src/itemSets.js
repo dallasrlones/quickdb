@@ -88,9 +88,9 @@
       if (failures.length !== 0) {
         return { success: false, error: failures };
       }
-
-      return { success: true, results: successes }
     });
+
+    return { success: true, results: successes }
   };
 
   // itemSet.bulkCreateCached = bulkOperationsArray => {};

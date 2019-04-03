@@ -1,48 +1,28 @@
-((cacheMachine, { genUUID }) => {
-
-  // possibly create a snapshot of cached values and store in json file in case
-  // server restart?
-
+((cacheMachine) => {
   cacheMachine.store = {};
   const theStore = cacheMachine.store;
+  // every set/update/remove add to snapshot file
+  // save snapshot for restarts yet keep data live in ram
 
-  cacheMachine.insertIntoSet = (paramsObj) => {
-    const { setName, doc } = paramsObj;
-    const newUUID = genUUID();
-
-    if (theStore[setName] === undefined) {
-      cacheMachine[setName][doc.id || newUUID] = doc;
-      return { success: true, id: newUUID };
-    }
-
-    if (theStore[setName][doc.id || newUUID] === undefined) {
-      cacheMachine[setName][doc.id || newUUID] = doc;
-      return { success: true, id: newUUID };
-    } else if (theStore[setName][newUUID] !== undefined){
-      cacheMachine[setName][genUUID()] = doc;
-      return { success: true, id: newUUID };
-    }
-
-    return { success: false, error: 'id already exists' };
+  cacheMachine.get = (stateName) => {
+    return theStore[stateName];
   };
 
-  cacheMachine.getWholeSet = setName => {
-    return theStore[setName] || false;
+  cacheMachine.set = (stateName, newStateObj) {
+    theStore[stateName] = newStateObj;
   };
 
-  cacheMachine.getFromSetById = (paramsObj) => {
-    const { setName, docId } = paramsObj;
-
-    if (theStore[setName] !== undefined) {
-
-      return theStore[setN]
+  cacheMachine.update = (stateName, newStateObj) => {
+    for(let i in newStateObj){
+      theStore[stateName][i] = newStateObj[i];
     }
-
-    return false;
   };
 
-})
-(
-  module.exports,
-  require('./utils')
-);
+  cacheMachine.replace = (stateName, newStateObj) => {
+    theStore[stateName] = newStateObj;
+  };
+
+  cacheMachine.remove = stateName => {
+    delete theStore[stateName];
+  };
+})(module.exports);
