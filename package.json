@@ -1,0 +1,20 @@
+{
+  "author": {
+    "name": "dallaslones"
+  },
+  "dependencies": {},
+  "deprecated": false,
+  "description": "JSON database for NodeJS, quick and easy, just require it and start saving stuff.",
+  "keywords": [
+    "quick database",
+    "quick db",
+    "json database",
+    "file database",
+    "fast database"
+  ],
+  "license": "ISC",
+  "main": "index.js",
+  "name": "quickdb",
+  "scripts": {},
+  "version": "2.0.0"
+}
